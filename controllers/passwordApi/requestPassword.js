@@ -1,5 +1,5 @@
 import User from '../../schema/userSchema.js'
-import { sendMail } from '../../utils/sendMail.js'
+import { sendMail } from '../../utility/sendMail.js'
 import crypto from 'crypto'
 
 

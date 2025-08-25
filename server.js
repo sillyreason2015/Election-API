@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import nodeCron from 'node-cron'
 import cookieParser from 'cookie-parser'
 import connectDb from './database/db.js'
 import userRouter from './routes/userRoutes.js'
@@ -10,13 +11,14 @@ import passwordRouter from './routes/passwordRoutes.js'
 import otpRouter from './routes/otpRoutes.js'
 import candidateRouter from './routes/candidateRoutes.js'
 import electionRouter from './routes/electionRoutes.js'
+import './cron/cronjob.js'
 
 connectDb()
 
 const app = express()
 
 dotenv.config()
-port = process.env.PORT
+const port = process.env.PORT
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))

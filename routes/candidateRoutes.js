@@ -5,7 +5,7 @@ import { addCandidate } from "../controllers/candidateApi/candidateBarrel.js";
 import { getCandidates } from "../controllers/candidateApi/candidateBarrel.js";
 import { updateCandidate } from "../controllers/candidateApi/candidateBarrel.js";
 import { deleteCandidate } from "../controllers/candidateApi/candidateBarrel.js";
-import authMiddleware from "../middleware/authMiddleware";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const candidateRouter = Router()
 
