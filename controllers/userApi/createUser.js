@@ -11,9 +11,8 @@ export const createUser = async (req, res) => {
     if(!name || !matricNumber || !email || !password){
         return res.status(400).json({message: "Please enter all fields"})
     }
-
+     const user = await User.findOne({matricNumber})
     try{
-        const user = findOne({email}, {matricNumber})
         if(user){
             return res.status(400).json({message: "This user already exists. Please login or register."})
         }

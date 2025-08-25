@@ -12,7 +12,7 @@ const candidateRouter = Router()
 candidateRouter
 .post('/add', authMiddleware, addCandidate)
 .get('/view', authMiddleware, getCandidates)
-.put('/update', authMiddleware, updateCandidate)
-.delete('/delete', authMiddleware, deleteCandidate)
+.put('/update/:candidateId', authMiddleware, updateCandidate)
+.delete('/delete/:candidateId', authMiddleware, deleteCandidate)
 
 export default candidateRouter

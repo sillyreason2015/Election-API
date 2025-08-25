@@ -10,9 +10,9 @@ const userRouter = Router()
 
 userRouter
 .post('/register', createUser)
-.get('/:id', authMiddleware, viewUser)
 .get('/all', authMiddleware, viewUsers)
-.put('/update', authMiddleware, updateUser)
-.delete('/delete', authMiddleware, deleteUser)
+.get('/:id', authMiddleware, viewUser)
+.put('/update/:id', authMiddleware, updateUser)
+.delete('/delete/:id', authMiddleware, deleteUser)
 
 export default userRouter
