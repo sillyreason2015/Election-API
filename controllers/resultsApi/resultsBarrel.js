@@ -1,0 +1,1 @@
+export {viewResults} from '../resultsApi/viewResults.js'
