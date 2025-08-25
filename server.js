@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import nodeCron from 'node-cron'
 import cookieParser from 'cookie-parser'
 import connectDb from './database/db.js'
 import userRouter from './routes/userRoutes.js'
@@ -12,6 +11,7 @@ import otpRouter from './routes/otpRoutes.js'
 import candidateRouter from './routes/candidateRoutes.js'
 import electionRouter from './routes/electionRoutes.js'
 import './cron/cronjob.js'
+import authRouter from './routes/authRoutes.js'
 
 connectDb()
 
@@ -30,11 +30,12 @@ app.use("/uploads", express.static("uploads"))
 
 app.use('/api/user', userRouter)
 app.use('/api/vote', voteRouter)
-app.use('/api/results', resultRouter)
+app.use('/api', resultRouter)
 app.use('/api/password', passwordRouter)
 app.use('/api/otp', otpRouter)
 app.use('/api/candidate', candidateRouter)
 app.use('/api/election', electionRouter)
+app.use('/api/auth', authRouter)
 
 
 app.listen(port, ()=>{
