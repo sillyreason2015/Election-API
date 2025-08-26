@@ -39,11 +39,13 @@ export const loginUser = async (req, res) => {
 
     const token = genToken({ userId: user._id });
 
+
+    const isProduction = process.env.NODE_ENV === "production"
     return res
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
-        secure: false, // change to true in production
+        sameSite: isProduction ? "none": "strict",
+        secure: isProduction, 
         path: "/",
       })
       .status(200)
