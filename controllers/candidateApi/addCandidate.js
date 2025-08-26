@@ -3,13 +3,13 @@ import Election from '../../schema/electionSchema.js'
 
 
 export const addCandidate = async (req, res) => {
-    const {electionId, name, department} = req.body
+    const {electionId, name, level} = req.body
     const {isAdmin} = req.user
 
-    if(!name ||!department ||!electionId){
+    if(!name ||!level ||!electionId){
         return res.status(400).json({message: "Missing Required Fields"})
     }
-    const election = Election.findById(electionId)
+    const election = await Election.findById(electionId)
     if(!election){
         return res.status(400).json({message: "Election not found"})
     }
@@ -19,20 +19,20 @@ export const addCandidate = async (req, res) => {
 
      let photoPath = null;
     if (req.file) {
-      photoPath = req.file.path;
+      photoPath = `/uploads/${req.file.filename}`;
     }
 
     try{
         const newCandidate = new Candidate({
             name, 
-            department,
+            level,
             votes: 0,
-            election: electionId,
+            electionId,
             photo: photoPath
         })
         await newCandidate.save()
         
-        election.candidates.push(newCandidate._id)
+        election.candidateId.push(newCandidate._id)
         await election.save()
 
 

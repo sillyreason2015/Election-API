@@ -5,14 +5,14 @@ import Vote from "../../schema/voteSchema.js";
 
 export const castVote = async (req, res) => {
     const {electionId, candidateId} = req.body
-    const {userId} = req.user._id
+    const userId = req.user._id
 
     try{
         if(!electionId || !candidateId){
             return res.status(400).json({message: "Elction Id and Candidate Id are required"})
         }
 
-        const voteCast = await Vote.findOne({id: userId, election: electionId})
+        const voteCast = await Vote.findOne({user: userId, election: electionId})
             if(voteCast){
                 return res.status(403).json({message: "You have already voted in this election"})
             }
@@ -36,12 +36,13 @@ export const castVote = async (req, res) => {
             candidate: candidateId,
             election: electionId
         })
-        await Vote.save()
+
+        await vote.save()
 
         const candidate = await Candidate.findById(candidateId)
         candidate.votes += 1
         await candidate.save()
-        
+
         res.status(200).json({message: "Vote cast successfully"})
     }catch(error){
         res.status(500).json({message: error.message})

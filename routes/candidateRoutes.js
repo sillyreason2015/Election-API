@@ -1,18 +1,15 @@
 import { Router } from "express";
-
-
-import { addCandidate } from "../controllers/candidateApi/candidateBarrel.js";
-import { getCandidates } from "../controllers/candidateApi/candidateBarrel.js";
-import { updateCandidate } from "../controllers/candidateApi/candidateBarrel.js";
-import { deleteCandidate } from "../controllers/candidateApi/candidateBarrel.js";
+import upload from "../uploads/fileUpload.js"; // your Multer setup
+import { addCandidate, getCandidates, updateCandidate, deleteCandidate } from "../controllers/candidateApi/candidateBarrel.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
-const candidateRouter = Router()
+const candidateRouter = Router();
 
-candidateRouter
-.post('/add', authMiddleware, addCandidate)
-.get('/view', authMiddleware, getCandidates)
-.put('/update/:candidateId', authMiddleware, updateCandidate)
-.delete('/delete/:candidateId', authMiddleware, deleteCandidate)
+// Add Multer middleware for form-data (photo upload)
+candidateRouter.post('/add', authMiddleware, upload.single("photo"), addCandidate);
 
-export default candidateRouter
+candidateRouter.get('/view', authMiddleware, getCandidates);
+candidateRouter.put('/update/:candidateId', authMiddleware, upload.single("photo"), updateCandidate); // optional if updating photo
+candidateRouter.delete('/delete/:candidateId', authMiddleware, deleteCandidate);
+
+export default candidateRouter;

@@ -6,7 +6,7 @@ import authMiddleware from "../middleware/authMiddleware.js"
 const resultRouter = Router()
 
 resultRouter
-.get('/results', authMiddleware, viewResults)
+.get('/results/:electionId', authMiddleware, viewResults)
 
 
 export default resultRouter

@@ -14,8 +14,8 @@ export const getCandidates = async (req, res) => {
       _id: candidate._id,
       name: candidate.name,
       department: candidate.department,
-      votes: candidate.votes,
-      election: candidate.election,
+    // we will bring this back when we want to show votes: votes: candidate.votes,
+      election: candidate.electionId,
       photo: candidate.photo
         ? `${req.protocol}://${req.get("host")}/${candidate.photo.replace(/\\/g, "/")}`
         : null,

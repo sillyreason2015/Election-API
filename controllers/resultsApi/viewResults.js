@@ -1,40 +1,34 @@
-import Candidate from "../../schema/candidateSchema.js";
 import Election from "../../schema/electionSchema.js";
-import Vote from "../../schema/voteSchema.js";
+import Candidate from "../../schema/candidateSchema.js";
 
 export const viewResults = async (req, res) => {
-    const {electionId} = req.params
-    const {isAdmin} = req.user
+    const { electionId } = req.params;
 
-    if(!isAdmin){
-        return res.status(400).json({message: "You are not authorized to carry out this action"})
-    }
-    try{
-        if(!electionId){
-            return res.status(400).json({message: "Election not found"})
+    try {
+        const election = await Election.findById(electionId).populate("candidateId");
+        if (!election) {
+            return res.status(404).json({ message: "Election not found" });
         }
 
-        const election = await Election.findById(electionId).populate("candidates")
-        if(!election){
-            return res.status(400).json({message: "Election not found"})
+        const now = new Date();
+        if (now < election.endDate) {
+            return res.status(403).json({ message: `Election is still ongoing. Results not available yet. Results will be out at ${election.endDate} ` });
         }
 
+        // Build result set with candidate votes
+        const results = election.candidateId.map(candidate => ({
+            name: candidate.name,
+            department: candidate.department,
+            votes: candidate.votes
+        }));
 
-        const votes = await Vote.find({election: electionId})
+        res.status(200).json({
+            election: election.title,
+            endedAt: election.endDate,
+            results
+        });
 
-
-        const results = election.candidateId.map((candidate)=>{
-            const voteCount = votes.filter((v)=>v.candidate.toString() === candidate._id.toString()).length
-            return {
-                candidateId: candidate._id,
-                name: candidate.name,
-                department: candidate.department,
-                votes: voteCount
-            }
-        })  
-        results.sort((a, b)=> b.votes - a.votes)
-        res.status(200).json({election: election.title, results})
-    }catch(error){
-        res.status(500).json({message: error.message})
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-}
+};

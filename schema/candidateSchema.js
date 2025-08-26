@@ -6,7 +6,7 @@ const candidateSchema = new Schema({
         type: String,
         required: true
     },
-    department: {
+    level: {
         type: String,
         required: true
     },
@@ -14,10 +14,11 @@ const candidateSchema = new Schema({
         type: Number, 
         default: 0
     },
-    electionId: [{
+    electionId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Election",
-    }],
+        required: true
+    },
      photo: { 
         type: String 
     }

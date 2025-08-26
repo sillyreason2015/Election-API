@@ -26,7 +26,7 @@ export const requestPassword = async (req, res) => {
             mailTo: email,
             subject: "Password Reset",
             body:`
-            Hello ${user.username}, you recently made a new password request. 
+            Hello ${user.name}, you recently made a new password request. 
             <p>Click on the link to reset your password</p> 
             <a href = "http://localhost:4000/password/reset/${token}">Reset Password</a>`
         })

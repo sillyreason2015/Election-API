@@ -1,8 +1,8 @@
 import Candidate from "../../schema/candidateSchema.js";
 
 export const updateCandidate = async (req, res) => {
-    const {id} = req.params
-    const {name, department} = req.body
+    const {candidateId} = req.params
+    const {name, level} = req.body
     const {isAdmin} = req.user
 
     if(!isAdmin){
@@ -10,29 +10,26 @@ export const updateCandidate = async (req, res) => {
     }
 
     try{
-        const candidate = await Candidate.findById(id)
+        const candidate = await Candidate.findById(candidateId)
         if(!candidate){
             return res.status(404).json({message: "Candidate not found"})
         }
         if(name) candidate.name = name
-        if(department) candidate.department = department
+        if(level) candidate.level = level
 
 
-          // Handle photo replacement
+        
          if (req.file) {
-      // Delete old photo if exists
          if (candidate.photo) {
         const oldPhotoPath = path.join(candidate.photo);
         fs.unlink(oldPhotoPath, (err) => {
           if (err) console.error("Failed to delete old photo:", err);
         });
       }
-      // Set new photo path
       candidate.photo = req.file.path;
     }
 
-        await Candidate.save()
-        
+        await candidate.save()
         res.status(200).json({message: "Candidate updated Successfully", candidate})
     }catch(error){
         res.status(500).json({message: error.message})

@@ -17,7 +17,11 @@ const electionSchema = new Schema({
     candidateId:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Candidate",  
-    }]
+    }],
+    resultsSent: {
+        type: Boolean,
+        default: false
+    }
 }, {timestamps: true})
 
 const Election = mongoose.model("Election", electionSchema)
