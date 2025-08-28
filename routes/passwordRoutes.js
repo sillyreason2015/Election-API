@@ -8,7 +8,7 @@ import authMiddleware from "../middleware/authMiddleware.js";
 const passwordRouter = Router()
 
 passwordRouter
-.post('/request', authMiddleware, requestPassword)
+.post('/forgot', authMiddleware, requestPassword)
 .post('/reset', authMiddleware, resetPassword)
 
 export default passwordRouter
