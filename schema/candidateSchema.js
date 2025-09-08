@@ -6,7 +6,7 @@ const candidateSchema = new Schema({
         type: String,
         required: true
     },
-    level: {
+    motto: {
         type: String,
         required: true
     },
