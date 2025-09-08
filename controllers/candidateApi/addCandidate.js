@@ -3,10 +3,11 @@ import Election from '../../schema/electionSchema.js'
 
 
 export const addCandidate = async (req, res) => {
-    const {electionId, name, level, photo} = req.body
+
+    const {electionId, name, level} = req.body
     const {isAdmin} = req.user
 
-    if(!name ||!level ||!electionId || !photo){
+    if(!name ||!level ||!electionId){
         return res.status(400).json({message: "Missing Required Fields"})
     }
     const election = await Election.findById(electionId)

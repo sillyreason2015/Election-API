@@ -6,12 +6,12 @@ const electionSchema = new Schema({
         type: String,
         required: true
     },
-    description: {
-        type: String,
+    startDate: {
+        type: Date,
         required: true
     },
-    thumbnail:{
-        type: String,
+    endDate:{
+        type: Date,
         required: true
     },
     candidateId:[{
@@ -21,11 +21,7 @@ const electionSchema = new Schema({
     resultsSent: {
         type: Boolean,
         default: false
-    },
-    voterId:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Voters"
-    }]
+    }
 }, {timestamps: true})
 
 const Election = mongoose.model("Election", electionSchema)
